@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About Shwetha Gattu</title>
+<meta name="description" content="Shwetha Gattu is a product designer with a background in fine arts and design management.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/case.css">
+<style>
+/* Layout: the reference's dark "Bonjour" screen (photo on a colour block, big serif greeting),
+   then the rest of the story on the light editorial page. */
+:root{--accent:#B8433D;--hero:#1B1B1B}
+.about-hero{background:#1B1B1B;color:#F4F2EE;min-height:100vh;min-height:100dvh;display:grid;align-items:center;position:relative;overflow:hidden;padding-block:120px 72px}
+.about-hero .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;position:relative}
+.photo{position:relative;margin:0 0 0 calc(-1 * max(clamp(20px,4vw,80px),env(safe-area-inset-left,0px)));background:var(--accent);aspect-ratio:1.08;overflow:hidden;clip-path:inset(0 100% 0 0);animation:open 1.3s .2s var(--ease) forwards}
+.photo img{position:absolute;left:18%;bottom:0;width:66%;height:auto;object-fit:cover;transform:scale(1.08);animation:settle 1.8s .2s var(--out) forwards}
+@keyframes open{to{clip-path:inset(0 0 0 0)}}
+@keyframes settle{to{transform:none}}
+.hello{position:relative;z-index:2;margin-left:-14%;display:grid;gap:30px}
+.hello h1{font-family:var(--f-display);font-weight:400;font-size:clamp(60px,8.6vw,138px);line-height:.98;letter-spacing:-.015em;margin:0;color:#F4F2EE}
+.hello .txt{margin-left:16%;display:grid;gap:26px;animation:fade 1s 1.1s var(--out) both}
+.hello p{margin:0;font-size:clamp(17px,1.5vw,20px);line-height:1.6;max-width:30ch;font-weight:500}
+.icons{display:flex;gap:30px;align-items:center}
+.icons a{opacity:.85;transition:opacity .3s,transform .4s var(--out)}
+.icons a:hover{opacity:1;transform:translateY(-3px)}
+.pill{background:var(--accent);color:#fff;border-radius:99px;padding:12px 20px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;transition:transform .4s var(--out),background .3s}
+.pill:hover{transform:scale(1.04)}
+.about-head{color:#F4F2EE}
+.about-head.solid{background:rgba(27,27,27,.92)}
+.scrolldown{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;opacity:.5;display:grid;justify-items:center;gap:10px}
+.scrolldown i{width:1px;height:34px;background:currentColor;animation:drip 1.8s var(--ease) infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(0)}}
+
+/* journey timeline */
+.milestones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,40px);list-style:none;margin:0;padding:0}
+.milestones li{border-top:1px solid var(--ink);padding-top:20px;display:grid;gap:10px;align-content:start}
+.milestones .when{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.milestones h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(26px,2.6vw,36px);line-height:1.08}
+.milestones p{margin:0;color:var(--mut)}
+
+/* experience rows */
+.xp{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+.xp li{display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1.5fr);gap:clamp(16px,3vw,40px);align-items:baseline;padding-block:30px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.xp li::before{content:"";position:absolute;inset:0;background:var(--soft);transform:scaleY(0);transform-origin:bottom;transition:transform .55s var(--ease);z-index:-1}
+.xp li:hover::before{transform:scaleY(1)}
+.xp .yr{font-size:14px;font-weight:600;letter-spacing:.08em;color:var(--mut);font-variant-numeric:tabular-nums}
+.xp h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(30px,3.6vw,52px);line-height:1;display:inline-block;overflow:hidden;position:relative}
+.xp h3 span{display:block;transition:transform .6s var(--out)}
+.xp h3 span+span{position:absolute;inset:0;transform:translateY(105%);color:var(--accent)}
+.xp li:hover h3 span:first-child{transform:translateY(-105%)}
+.xp li:hover h3 span+span{transform:none}
+.xp p{margin:0;color:#2c2c2c}
+.xp .role{display:block;font-weight:600;color:var(--ink);margin-bottom:4px}
+
+/* process steps */
+.process{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;counter-reset:p;list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+.process li{counter-increment:p;padding:22px 18px 22px 0;display:grid;gap:8px;align-content:start;border-right:1px solid var(--line);padding-left:18px;transition:background .4s}
+.process li:first-child{padding-left:0}
+.process li:last-child{border-right:0}
+.process li::before{content:counter(p,decimal-leading-zero);font-size:12px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.process h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1.05}
+.process p{margin:0;font-size:15px;color:var(--mut);line-height:1.5}
+
+/* moments */
+.moments{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,24px)}
+.m{margin:0;display:grid;gap:12px;align-content:start}
+.m .ph{aspect-ratio:4/5;overflow:hidden;border-radius:4px;background:var(--soft);perspective:900px}
+.m img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--out)}
+.m:hover img{transform:scale(1.05)}
+.m h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1.1}
+.m p{margin:0;color:var(--mut);font-size:15px}
+.m .art{display:grid;place-items:center;height:100%;background:#2b3a2f}
+.swatches{display:grid;grid-template-columns:repeat(4,40px);gap:8px;transform:rotate(-8deg)}
+.swatches i{height:64px;border-radius:3px;background:var(--c)}
+.off{margin:clamp(40px,6vw,72px) 0 0;font-family:var(--f-display);font-size:clamp(26px,3vw,40px);line-height:1.25;max-width:30ch}
+.off em{font-style:italic;color:var(--accent)}
+
+@media (max-width:860px){
+  .about-hero .grid{grid-template-columns:1fr;gap:28px}
+  .photo{margin-right:calc(-1 * max(20px,env(safe-area-inset-right,0px)));aspect-ratio:1.2}
+  .hello{margin-left:0;margin-top:-90px}
+  .hello .txt{margin-left:0}
+  .milestones,.xp li{grid-template-columns:1fr}
+  .xp li{gap:6px}
+  .moments{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .process li{border-right:0;border-bottom:1px solid var(--line);padding-left:0}
+}
+@media (max-width:520px){.moments{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.photo{animation:none;clip-path:none}.photo img{animation:none;transform:none}.hello .txt{animation:none}}
+</style>
+</head>
+<body>
+<div class="curtain in" aria-hidden="true"></div>
+<div class="readbar" aria-hidden="true"></div>
+<header class="site-head about-head gut">
+  <a class="backlink pt" href="index.html"><svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M16 6H2M7 1 2 6l5 5" stroke="currentColor" stroke-width="1.5"/></svg>Back</a>
+  <a class="pill" href="https://www.linkedin.com/in/shwetha-gattu-ab0286190/">Let’s talk</a>
+</header>
+
+<main>
+  <section class="about-hero hero gut">
+    <div class="grid wide-wrap" style="width:100%">
+      <figure class="photo"><img src="images/me-portrait.webp" alt="Portrait of Shwetha Gattu"></figure>
+      <div class="hello">
+        <h1 class="roll">Hello, I’m Shwetha</h1>
+        <div class="txt">
+          <p>I’m a product designer with roots in fine arts and design management. I solve problems with vision and turn them into intuitive experiences.</p>
+          <div class="icons">
+            <a href="https://www.linkedin.com/in/shwetha-gattu-ab0286190/" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.7-2.79-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg></a>
+            <a href="https://www.behance.net/shwethagatb5f4" aria-label="Behance"><svg width="24" height="20" viewBox="0 0 24 16" fill="currentColor" aria-hidden="true"><path d="M7.1 7.6c1.2-.6 1.8-1.5 1.8-2.8C8.9 2.2 7 1.5 4.8 1.5H0V14h4.9c2.6 0 5-1.2 5-4 0-1.7-.8-2.9-2.8-3.4zM2.2 3.6h2.1c.8 0 1.5.2 1.5 1.1 0 .8-.6 1.2-1.4 1.2H2.2zm2.3 8.1H2.2V8.3h2.4c1 0 1.6.4 1.6 1.5 0 1-.7 1.9-1.7 1.9zM20.6 2.1h-6V3.6h6zm1.4 7.8c0-2.7-1.6-4.9-4.4-4.9-2.8 0-4.6 2.1-4.6 4.8 0 2.8 1.7 4.7 4.6 4.7 2.2 0 3.6-1 4.3-3h-2.2c-.3.7-1.1 1.1-2 1.1-1.5 0-2.3-.9-2.3-2.4h6.6zm-6.6-1.1c.1-1.2.9-2 2.1-2 1.3 0 1.9.8 2 2z"/></svg></a>
+            <a href="https://www.instagram.com/shwe.uix/" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="scrolldown" aria-hidden="true">More about me<i></i></span>
+  </section>
+
+  <section class="sec gut"><div class="wrap">
+    <span class="idx rv">01</span>
+    <h2 class="h2 serif rv">From canvas to product.</h2>
+    <p class="label kicker rv">My journey</p>
+    <div class="body">
+      <p class="big-p rv" style="margin:0">My design path started with a love of art. Today I design products for healthcare, property and finance, and I still look for the traditions and colours of every city I visit.</p>
+      <ol class="milestones">
+        <li class="rv"><span class="when">Where it began</span><h3>Fine Arts degree</h3><p>An undergraduate degree in Fine Arts and a lasting eye for colour and composition.</p></li>
+        <li class="rv"><span class="when">The shift</span><h3>Graphic to UI/UX</h3><p>Graphic design led into interface and experience design for web and mobile.</p></li>
+        <li class="rv"><span class="when">Going further</span><h3>MBA, Design Management</h3><p>Graduated from UCA, fulfilling a childhood dream of walking across a London stage.</p></li>
+      </ol>
+    </div>
+  </div></section>
+
+  <section class="sec gut"><div class="wrap">
+    <span class="idx rv">02</span>
+    <h2 class="h2 serif rv">Where I’ve worked.</h2>
+    <p class="label kicker rv">Experience · 8+ years</p>
+    <div class="body">
+      <ul class="xp">
+        <li class="rv"><span class="yr">2021–24</span><h3><span>Focal CXM</span><span aria-hidden="true">Focal CXM</span></h3><p><span class="role">Product Designer</span>Led a project to on-time delivery, designed web and mobile wireframes, mockups and prototypes in Figma and Adobe XD, and built a component library with clear specs for developers.</p></li>
+        <li class="rv"><span class="yr">2021</span><h3><span>NextGen</span><span aria-hidden="true">NextGen</span></h3><p><span class="role">UI/UX Designer</span>Created a style guide for a real estate website, researched users aged 35 to 70, and designed the pages and client-ready mockups.</p></li>
+        <li class="rv"><span class="yr">2018–20</span><h3><span>AgileCRM</span><span aria-hidden="true">AgileCRM</span></h3><p><span class="role">UI & Graphic Designer</span>Designed cross-platform solutions with sitemaps, wireframes and prototypes, keeping desktop and mobile graphics on brand.</p></li>
+        <li class="rv"><span class="yr">2016–18</span><h3><span>ABDA Studio</span><span aria-hidden="true">ABDA Studio</span></h3><p><span class="role">Designer</span>Learned colour theory, alignment, research and branding, with room to experiment in UI design.</p></li>
+      </ul>
+    </div>
+  </div></section>
+
+  <section class="sec gut"><div class="wrap">
+    <span class="idx rv">03</span>
+    <h2 class="h2 serif rv">My design process.</h2>
+    <p class="label kicker rv">How I work</p>
+    <div class="body">
+      <ol class="process rv">
+        <li><h3>Understand</h3><p>Get to the core problems of the product.</p></li>
+        <li><h3>Research</h3><p>User research and competitor analysis.</p></li>
+        <li><h3>Define</h3><p>Pinpoint pain points and opportunities.</p></li>
+        <li><h3>Ideate</h3><p>Generate a wide range of solutions.</p></li>
+        <li><h3>Prototype</h3><p>From sketches to working prototypes.</p></li>
+        <li><h3>Test</h3><p>Feedback from real users.</p></li>
+        <li><h3>Implement</h3><p>Refine and launch.</p></li>
+      </ol>
+    </div>
+  </div></section>
+
+  <section class="sec gut"><div class="wrap">
+    <span class="idx rv">04</span>
+    <h2 class="h2 serif rv">A few things about me.</h2>
+    <p class="label kicker rv">Off the clock</p>
+    <div class="body">
+      <div class="moments">
+        <figure class="m rv"><div class="ph"><img src="images/me-graduation.webp" alt="Shwetha at her UCA graduation" loading="lazy"></div><h3>Graduated from UCA</h3><p>A childhood dream of walking across a London stage drove me there.</p></figure>
+        <figure class="m rv"><div class="ph"><img src="images/me-candles.webp" alt="Digital painting of two candles, one lit and one just blown out" loading="lazy"></div><h3>Digital painting</h3><p>Painting with a cursor was a challenge I couldn’t resist.</p></figure>
+        <figure class="m rv"><div class="ph"><img src="images/me-moon.webp" alt="Digital painting of a full moon behind a bare tree" loading="lazy" style="object-position:55% 40%"></div><h3>Moons are my therapy</h3><p>Their glow calms me, and their phases remind me light finds a way through the dark.</p></figure>
+        <figure class="m rv"><div class="ph"><div class="art"><div class="swatches"><i style="--c:#E76F51"></i><i style="--c:#F4A261"></i><i style="--c:#2A9D8F"></i><i style="--c:#264653"></i></div></div></div><h3>I’m an artist</h3><p>Working with cut colours excites me. The shades bring my imagination to life.</p></figure>
+        <figure class="m rv"><div class="ph"><img src="images/me-sky.webp" alt="Shwetha smiling up at a clear blue sky" loading="lazy"></div><h3>I love selfies</h3><p>Self-timer selfies: frustrating, and great fun.</p></figure>
+        <figure class="m rv"><div class="ph"><img src="images/me-portrait.webp" alt="" loading="lazy" style="object-position:50% 20%"></div><h3>Capturing moments</h3><p>I collect photos that hold special memories.</p></figure>
+      </div>
+      <p class="off rv">Outside work I play the <em>piano</em>, playfully argue with my dog <em>Tommie</em>, and look for any excuse to book the next trip.</p>
+    </div>
+  </div></section>
+</main>
+
+<footer class="contact gut"><div class="wrap">
+  <p class="label">Say hello</p>
+  <h2 class="big">Let’s get to know each other.</h2>
+  <div class="links">
+    <a class="ul" href="https://www.linkedin.com/in/shwetha-gattu-ab0286190/">LinkedIn</a>
+    <a class="ul" href="https://www.behance.net/shwethagatb5f4">Behance</a>
+    <a class="ul" href="https://www.instagram.com/shwe.uix/">Instagram</a>
+    <a class="ul pt" href="index.html">See my work</a>
+  </div>
+  <div class="foot"><span>© 2026 Shwetha Gattu</span><a href="#" data-top>Back to top ↑</a></div>
+</div></footer>
+<div class="cursor" aria-hidden="true"><span>Drag</span></div>
+<script src="assets/case.js"></script>
+</body>
+</html>
