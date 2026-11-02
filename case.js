@@ -1,6 +1,6 @@
 (function(){
 document.documentElement.classList.add('js');
-const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches||document.body.classList.contains('static');
 
 /* rolling letters on any .roll heading */
 document.querySelectorAll('.roll').forEach(el=>{

@@ -282,3 +282,21 @@ td small{display:block;color:var(--mut);margin-top:6px;font-size:13px}
   .js .rv{opacity:1;transform:none;transition:none}
   .js .gantt .bar,.js .bars i,.js .matrix .chip{transform:none;opacity:1;transition:none}
 }
+
+/* ---------- static project pages: no scroll or entrance motion ---------- */
+body.static .roll .c,body.static .hero .sub{animation:none}
+.js body.static .rv{opacity:1;transform:none;transition:none}
+body.static .tilt{transform:none!important;box-shadow:none;border-radius:4px}
+body.static .stage{perspective:none}
+.js body.static .gantt .bar,.js body.static .bars i,.js body.static .matrix .chip{transform:none;opacity:1;transition:none}
+body.static .plan .dot i{width:100%;transition:none}
+body.static .card,body.static .card:hover{transform:none}
+body.static .next .peek{display:none}
+body.static .next .nm span+span{display:none}
+body.static .next:hover .nm span:first-child{transform:none}
+body.static .cursor{display:none}
+body.static,body.static .rail{cursor:auto}
+body.static a,body.static button{cursor:pointer}
+
+/* keep the descenders (the "y" in Property) from being cut off */
+.next .nm{padding-bottom:.14em;margin-bottom:-.14em}

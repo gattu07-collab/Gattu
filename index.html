@@ -31,7 +31,6 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .strip{position:fixed;left:0;top:0;bottom:0;width:6px;background:var(--strip);z-index:30;transition:background-color 1s var(--ease)}
 
 header{position:fixed;inset:0 0 auto;z-index:20;display:flex;justify-content:space-between;align-items:center;padding-top:calc(env(safe-area-inset-top,0px) + 40px);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;transition:opacity .6s}
-body.at-intro header .brand{opacity:0;pointer-events:none}
 .brand{transition:opacity .6s}
 header nav{display:flex;gap:32px}
 header a{position:relative}
@@ -41,7 +40,17 @@ header a:hover::after{transform:scaleX(1);transform-origin:left}
 .screen{position:fixed;inset:0;z-index:5;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .7s var(--ease),visibility 0s .7s}
 .screen.on{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .9s var(--ease) .15s,visibility 0s}
 
-/* intro */
+/* intro: moon hero (drawn by moon.js) */
+.moon,.moon canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0}
+.peek{position:absolute;left:0;right:0;margin-inline:auto;width:max-content;max-width:calc(100vw - 32px);box-sizing:border-box;bottom:calc(env(safe-area-inset-bottom,0px) + 28px);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#D5D8E0;background:rgba(10,14,24,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:10px 16px;border-radius:99px;white-space:nowrap;pointer-events:none;animation:fade 1s 1.2s var(--out) both}
+.peek b{font-weight:600}.peek .t{display:none}
+@media (hover:none){.peek .m{display:none}.peek .t{display:inline}}
+#intro .hint{color:#EDE8DF}
+/* name and links turn dark over the light reveal */
+body.at-intro header{mix-blend-mode:difference;color:#fff}
+@media (max-width:760px){#intro .hint{display:none}}
+/* intro (old) */
 #intro .in{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;padding-block:calc(env(safe-area-inset-top,0px) + 40px) calc(env(safe-area-inset-bottom,0px) + 56px)}
 .name{font-family:var(--f-display);font-weight:400;font-size:clamp(48px,6.6vw,104px);line-height:1;letter-spacing:-.02em;margin:0;color:var(--title)}
 .name .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em}
@@ -121,7 +130,7 @@ body.opening .cursor{opacity:0}
   header{padding-top:calc(env(safe-area-inset-top,0px) + 26px)}
 }
 @media (prefers-reduced-motion:reduce){
-  .name .c,.role,.bubble,.hint,.hint i{animation:none}
+  .peek,.hint,.hint i{animation:none}
   .screen,#gl,#fallback{transition-duration:.01s!important}
 }
 </style>
@@ -135,14 +144,9 @@ body.opening .cursor{opacity:0}
 
 <main>
   <section class="screen on" id="intro" aria-label="Introduction">
-    <div class="in gut">
-      <div>
-        <h1 class="name" id="name">Shwetha Gattu</h1>
-        <p class="role">Product designer</p>
-      </div>
-      <div></div>
-      <p class="bubble" aria-live="polite"><span id="say">The designer who makes complex products feel simple.</span></p>
-    </div>
+    <div id="moon" class="moon"></div>
+    <h1 class="sr">Shwetha Gattu, product designer. Every moon has its phases. So does every design: listen, sketch, wireframe, design, launch.</h1>
+    <span class="peek" aria-hidden="true"><b class="m">Move your mouse to see the design behind the moon</b><b class="t">Touch to see the design</b></span>
     <span class="hint" aria-hidden="true"><i></i>Scroll</span>
   </section>
 
@@ -178,7 +182,7 @@ body.opening .cursor{opacity:0}
 
 <script>
 (function(){
-const INTRO={bg:'#0D0D0D',fg:'#F4F2EE',title:'#6E8FB3'};
+const INTRO={bg:'#0A0E18',fg:'#EDE8DF',title:'#F2D9A6'};
 const P=[
  {name:'Merck',href:'merck.html',img:'merck-home.webp',hero:'#D3DDDA',bg:'#E7EFED',fg:'#14211F',title:'#0F7A6E',
   desc:'A medical portal that gives healthcare professionals one trusted place for information, storage guidance and expert support.'},
@@ -191,15 +195,6 @@ const CONTACT={bg:'#141414',fg:'#F4F2EE',title:'#E9E6E1'};
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $=id=>document.getElementById(id), root=document.documentElement, body=document.body;
 const screens={intro:$('intro'),work:$('work'),contact:$('contact')};
-
-/* intro name letters + rotating speech bubble */
-(function(){const el=$('name'),t=el.textContent;el.setAttribute('aria-label',t);el.textContent='';let k=0;
-  t.split(' ').forEach((wd,i,a)=>{const w=document.createElement('span');w.className='w';w.setAttribute('aria-hidden','true');
-    [...wd].forEach(ch=>{const c=document.createElement('span');c.className='c';c.textContent=ch;c.style.animationDelay=(.1+k++*.04)+'s';w.appendChild(c)});
-    el.appendChild(w);if(i<a.length-1)el.appendChild(document.createTextNode(' '))});})();
-const lines=['The designer who makes complex products feel simple.','8+ years turning research into products people trust.','Healthcare, property, finance. Same care, every time.','Fine artist turned product designer. Still painting.'];
-let li=0;const say=$('say');
-setInterval(()=>{if(step!==0||reduce)return;say.classList.add('out');setTimeout(()=>{li=(li+1)%lines.length;say.textContent=lines[li];say.classList.remove('out')},450)},3800);
 
 /* titles, descriptions, dots */
 const tstack=$('tstack'),dstack=$('dstack'),dots=$('dots'),open=$('open'),hit=$('hit');
@@ -346,6 +341,8 @@ addEventListener('pointermove',e=>{tx=e.clientX;ty2=e.clientY;
 
 /* boot */
 T.pos=T.target=-1.2;theme(INTRO);layout();addEventListener('resize',layout);
+/* arriving from 'See my work': open straight on the first project */
+if(location.hash==='#work'){go(1);T.pos=0;history.replaceState(null,'',location.pathname)}
 Promise.all(P.map(p=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=p.img}))).then(list=>{
   imgs=list;let ok=gl&&list.every(Boolean);
   if(ok){try{initGL()}catch(e){ok=false}}
@@ -355,5 +352,6 @@ Promise.all(P.map(p=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im
 });
 })();
 </script>
+<script src="moon.js"></script>
 </body>
 </html>
