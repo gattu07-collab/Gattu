@@ -15,7 +15,7 @@ const c=document.createElement('canvas');c.setAttribute('aria-hidden','true');ho
 const x=c.getContext('2d');
 const mk=()=>{const k=document.createElement('canvas');return[k,k.getContext('2d')]};
 const [A,ax]=mk(),[B,bx]=mk(),[M,mx]=mk(),[V,vx]=mk();
-let W=0,H=0,dpr=1,G=[],mob=false,ptr={x:-999,y:-999,last:-1e9},pos={x:0,y:0},prev={x:0,y:0},t0=performance.now();
+let W=0,H=0,dpr=1,G=[],mob=false,amt=0,ptr={x:-999,y:-999,on:false},pos={x:0,y:0},prev={x:0,y:0},t0=performance.now();
 const trail=[];
 const base='';
 const MOONS=[1,2,3,4,5].map(n=>{const im=new Image();im.onload=()=>{if(W)drawTop(layout())};im.src=base+'moon-'+n+'.webp';return im});
@@ -84,19 +84,19 @@ const ICON={
 };
 const ICONS=['listen','sketch','wire','design','launch'];
 function drawHid(L){const t=bx;t.setTransform(dpr,0,0,dpr,0,0);
-  t.fillStyle='#FBF8F3';t.fillRect(0,0,W,H);
-  t.font='700 12px Outfit, sans-serif';t.fillStyle='#111111';if(!mob)spaced(t,'FROM GREY TO COLOUR',L.padX,L.top-L.fs*.95,2.4);
-  headline(t,['So does','every design.'],L.fs,L.padX,L.top,'#111111',CORAL,'design');
+  t.fillStyle='#000000';t.fillRect(0,0,W,H);
+  t.font='700 12px Outfit, sans-serif';t.fillStyle='rgba(237,232,223,.55)';if(!mob)spaced(t,'FROM GREY TO COLOUR',L.padX,L.top-L.fs*.95,2.4);
+  headline(t,['So does','every design.'],L.fs,L.padX,L.top,'#EDE8DF',CORAL,'design');
   const cols=['#D8D4CD','#B9C2BF','#86B3AA','#1F9C8C',null];
   t.lineWidth=Math.max(2,G[0].R*.06);t.lineCap='round';const lg=t.createLinearGradient(G[0].x,0,G[4].x,0);lg.addColorStop(0,'#D8D4CD');lg.addColorStop(.75,'#1F9C8C');lg.addColorStop(1,CORAL);
   t.strokeStyle=lg;t.beginPath();G.forEach((g,i)=>i?t.lineTo(g.x,g.y):t.moveTo(g.x,g.y));t.stroke();
   PH.forEach((ph,i)=>{const {x:cx,y:cy,R}=G[i];
-    t.save();t.shadowColor='rgba(29,29,34,.15)';t.shadowBlur=R*.3;t.shadowOffsetY=R*.08;t.beginPath();t.arc(cx,cy,R,0,7);
+    t.save();t.shadowColor='rgba(255,255,255,.06)';t.shadowBlur=R*.4;t.shadowOffsetY=R*.08;t.beginPath();t.arc(cx,cy,R,0,7);
     if(cols[i])t.fillStyle=cols[i];else{const g=t.createLinearGradient(cx-R,cy-R,cx+R,cy+R);g.addColorStop(0,'#F2BE62');g.addColorStop(1,CORAL);t.fillStyle=g}t.fill();t.restore();
     if(i===4){[[-1.25,-.7],[1.2,-.6],[1.05,.9],[-1.15,.75]].forEach(([dx,dy],k)=>{t.fillStyle=['#F2BE62','#1F9C8C',CORAL,'#2E4466'][k];t.beginPath();t.arc(cx+dx*R,cy+dy*R,R*.07,0,7);t.fill()})}
     const ic=i<2?'rgba(29,29,34,.7)':'#fff';t.strokeStyle=ic;t.fillStyle=ic;t.lineWidth=Math.max(1.6,R*.045);t.lineCap='round';t.lineJoin='round';ICON[ICONS[i]](t,cx,cy,R*.62);
-    t.textAlign='center';t.fillStyle='#111111';t.font=`400 ${mob?16:Math.max(22,Math.min(W*.02,30))}px "DM Serif Display", serif`;t.fillText(ph.step,cx,mob?(i%2?cy-R-14:cy+R+26):cy+R+62);
-    if(!mob){t.font='500 13px Outfit, sans-serif';t.fillStyle='#111111';t.fillText(ph.desc,cx,cy+R+84);
+    t.textAlign='center';t.fillStyle='#EDE8DF';t.font=`400 ${mob?16:Math.max(22,Math.min(W*.02,30))}px "DM Serif Display", serif`;t.fillText(ph.step,cx,mob?(i%2?cy-R-14:cy+R+26):cy+R+62);
+    if(!mob){t.font='500 13px Outfit, sans-serif';t.fillStyle='rgba(237,232,223,.62)';t.fillText(ph.desc,cx,cy+R+84);
       t.font='700 11px Outfit, sans-serif';t.fillStyle=CORAL;spaced(t,'0'+(i+1),cx,cy+R+30,2)}
     t.textAlign='left'});
 }
@@ -108,27 +108,55 @@ function blob(cx,cy,r,t){const n=9;
     const g=mx.createRadialGradient(px,py,0,px,py,rr);g.addColorStop(0,'rgba(0,0,0,1)');g.addColorStop(.7,'rgba(0,0,0,.9)');g.addColorStop(1,'rgba(0,0,0,0)');mx.fillStyle=g;mx.beginPath();mx.arc(px,py,rr,0,7);mx.fill()}
   const g=mx.createRadialGradient(cx,cy,0,cx,cy,r*.9);g.addColorStop(0,'rgba(0,0,0,1)');g.addColorStop(1,'rgba(0,0,0,0)');mx.fillStyle=g;mx.beginPath();mx.arc(cx,cy,r*.9,0,7);mx.fill()}
 function active(){return document.body.classList.contains('at-intro')}
+
+/* thin grid lines around the cursor (like the reference): they bulge a little near the pointer,
+   raspberry close in, fading to grey and then nothing further out */
+const gpos={x:0,y:0};
+function gridLines(t){
+  const cell=mob?52:76,R=Math.max(cell*3.2,Math.min(W,H)*(mob?.38:.36));
+  gpos.x+=(pos.x-gpos.x)*.12;gpos.y+=(pos.y-gpos.y)*.12;
+  const cx=gpos.x,cy=gpos.y,sig=R*.45,bulge=reduce?0:.16;
+  const warp=(px,py)=>{const dx=px-cx,dy=py-cy,f=bulge*Math.exp(-(dx*dx+dy*dy)/(sig*sig));return[px+dx*f,py+dy*f]};
+  const fade=(px,py)=>{const d=Math.hypot(px-cx,py-cy)/R;return d>=1?0:Math.pow(1-d,1.6)*amt};
+  const col=(a)=>`rgba(242,217,166,${a})`; // the moonlight gold of 'phases'
+  x.lineWidth=1;const step=8;
+  const seg=(x0,y0,x1,y1)=>{const mxp=(x0+x1)/2,myp=(y0+y1)/2,a=fade(mxp,myp);if(a<.02)return;
+    const [ax,ay]=warp(x0,y0),[bx2,by2]=warp(x1,y1);x.strokeStyle=col(Math.min(1,a*.75));x.beginPath();x.moveTo(ax,ay);x.lineTo(bx2,by2);x.stroke()};
+  const gx0=Math.floor((cx-R)/cell)*cell,gx1=cx+R,gy0=Math.floor((cy-R)/cell)*cell,gy1=cy+R;
+  for(let gx=gx0;gx<=gx1;gx+=cell)for(let y=cy-R;y<cy+R;y+=step)seg(gx,y,gx,y+step);
+  for(let gy=gy0;gy<=gy1;gy+=cell)for(let xx=cx-R;xx<cx+R;xx+=step)seg(xx,gy,xx+step,gy);
+  // small nodes where lines cross, close to the pointer
+  for(let gx=gx0;gx<=gx1;gx+=cell)for(let gy=gy0;gy<=gy1;gy+=cell){const d=Math.hypot(gx-cx,gy-cy)/R;if(d>.45)continue;
+    const [px,py]=warp(gx,gy);x.fillStyle=`rgba(242,217,166,${(1-d/.45)*amt})`;x.beginPath();x.arc(px,py,1.8,0,7);x.fill()}
+}
 function frame(now){requestAnimationFrame(frame);if(!active()||!W)return;
-  const t=Math.max(0,now-t0)/1000;let tx=ptr.x,ty=ptr.y;
-  if(now-ptr.last>2600){const k=t*.22,i=Math.floor(k)%5,f=k-Math.floor(k),j=(i+1)%5,e=f<.6?0:(1-Math.cos((f-.6)/.4*Math.PI))/2;
-    tx=G[i].x+(G[j].x-G[i].x)*e;ty=G[i].y+(G[j].y-G[i].y)*e+Math.sin(t*1.3)*G[i].R*.15}
-  pos.x+=(tx-pos.x)*.13;pos.y+=(ty-pos.y)*.13;
+  const t=Math.max(0,now-t0)/1000;
+  // the reveal only appears where the visitor points; it never moves on its own
+  amt+=((ptr.on?1:0)-amt)*(reduce?1:.08);
+  pos.x+=(ptr.x-pos.x)*(reduce?1:.1);pos.y+=(ptr.y-pos.y)*(reduce?1:.1);
   const sp=Math.min(1,Math.hypot(pos.x-prev.x,pos.y-prev.y)/40);prev={x:pos.x,y:pos.y};
-  const rad=Math.max(G[0].R*2.1,Math.min(W,H)*(mob?.2:.16))*(1+sp*.3);
-  trail.unshift({x:pos.x,y:pos.y,r:rad});if(trail.length>(reduce?1:34))trail.pop();
+  const rad=Math.max(G[0].R*2.1,Math.min(W,H)*(mob?.2:.16))*(1+sp*.25)*(.35+.65*amt);
+  trail.unshift({x:pos.x,y:pos.y,r:rad});if(trail.length>(reduce?1:30))trail.pop();
   mx.clearRect(0,0,W,H);
-  for(let i=trail.length-1;i>=2;i-=2){const q=trail[i],a=Math.pow(1-i/trail.length,1.6)*.85;
+  if(amt<.01){x.clearRect(0,0,W,H);x.drawImage(A,0,0,W,H);return}
+  for(let i=trail.length-1;i>=2;i-=2){const q=trail[i],a=Math.pow(1-i/trail.length,1.6)*.85*amt;
     const g=mx.createRadialGradient(q.x,q.y,0,q.x,q.y,q.r*.85);g.addColorStop(0,`rgba(0,0,0,${a})`);g.addColorStop(.6,`rgba(0,0,0,${a*.7})`);g.addColorStop(1,'rgba(0,0,0,0)');
     mx.fillStyle=g;mx.beginPath();mx.arc(q.x,q.y,q.r*.85,0,7);mx.fill()}
-  blob(pos.x,pos.y,rad,t);
+  mx.globalAlpha=amt;
+  blob(pos.x,pos.y,rad,t);mx.globalAlpha=1;
   vx.globalCompositeOperation='source-over';vx.clearRect(0,0,W,H);vx.drawImage(B,0,0,W,H);vx.globalCompositeOperation='destination-in';vx.drawImage(M,0,0,W,H);
-  x.clearRect(0,0,W,H);x.drawImage(A,0,0,W,H);x.drawImage(V,0,0,W,H)}
+  x.clearRect(0,0,W,H);x.drawImage(A,0,0,W,H);x.drawImage(V,0,0,W,H);gridLines(t)}
 
 function size(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
   [c,A,B,M,V].forEach(k=>{k.width=W*dpr;k.height=H*dpr});[x,mx,vx].forEach(k=>k.setTransform(dpr,0,0,dpr,0,0));
   const L=layout();drawTop(L);drawHid(L)}
-addEventListener('pointermove',e=>{ptr={x:e.clientX,y:e.clientY,last:performance.now()}},{passive:true});
-addEventListener('pointerdown',e=>{ptr={x:e.clientX,y:e.clientY,last:performance.now()}},{passive:true});
+function point(e,on){if(amt<.02){pos.x=prev.x=gpos.x=e.clientX;pos.y=prev.y=gpos.y=e.clientY;trail.length=0}ptr={x:e.clientX,y:e.clientY,on}}
+addEventListener('pointermove',e=>{if(e.pointerType==='mouse')point(e,true);else if(e.buttons)point(e,true)},{passive:true});
+addEventListener('pointerdown',e=>point(e,true),{passive:true});
+addEventListener('pointerup',e=>{if(e.pointerType!=='mouse')ptr.on=false},{passive:true});
+addEventListener('pointercancel',()=>{ptr.on=false},{passive:true});
+document.addEventListener('mouseleave',()=>{ptr.on=false});
+addEventListener('blur',()=>{ptr.on=false});
 size();pos={x:G[0].x,y:G[0].y};prev={...pos};addEventListener('resize',size);
 Promise.race([Promise.all(['400 40px "DM Serif Display"','italic 400 40px "DM Serif Display"','500 13px Outfit','700 12px Outfit'].map(f=>document.fonts.load(f))),new Promise(r=>setTimeout(r,2500))]).then(size);
 requestAnimationFrame(frame);

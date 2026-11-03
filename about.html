@@ -104,6 +104,9 @@
 /* static page: no motion, colours only */
 body.static .photo{animation:none;clip-path:none}
 body.static .photo img{animation:none;transform:none}
+/* round profile picture, centred on the raspberry square */
+.photo.round img{left:50%;top:50%;bottom:auto;width:min(82%,520px);height:auto;transform:translate(-50%,-50%)!important;filter:drop-shadow(0 18px 40px rgba(0,0,0,.35))}
+@media (max-width:860px){.photo.round img{width:56%;top:40%}}
 body.static .hello .txt{animation:none}
 body.static .icons a,body.static .icons a:hover,body.static .pill,body.static .pill:hover{transition:none;transform:none}
 body.static .xp li::before{display:none}
@@ -126,7 +129,7 @@ body.static .site-head{transition:none}
 <main>
   <section class="about-hero hero gut">
     <div class="grid wide-wrap" style="width:100%">
-      <figure class="photo"><img src="me-hero.webp" alt="Portrait of Shwetha Gattu"></figure>
+      <figure class="photo round"><img src="me-avatar2.webp" alt="Shwetha Gattu taking a mirror selfie in a pink t-shirt"></figure>
       <div class="hello">
         <h1 class="roll">Hello, I’m Shwetha</h1>
         <div class="txt">
